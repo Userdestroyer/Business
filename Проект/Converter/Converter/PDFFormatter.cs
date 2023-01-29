@@ -126,6 +126,17 @@ class PDFFormatter
                         //CODEPART 2.3 Редактирование заголовка таблицы
                         case 2://"[*номер таблицы*]"
                             {
+                                _tableNumber++;//номер таблицы состоит из номера раздела и номера таблицы
+                                string replaceString = "Таблица " + _sectionNumber.ToString()
+                                + "." + _tableNumber.ToString() + " –";
+                                textParagraph = textParagraph.Replace(templateStringList[i], replaceString);
+                                var iparagraph = new Paragraph(textParagraph,
+                                new Font(baseFont, fontSizeText, Font.ITALIC));
+                                iparagraph.SpacingAfter = 12f;
+                                iparagraph.Alignment = Element.ALIGN_LEFT;
+                                document.Add(iparagraph);
+                                //абзац уже вставлен
+                                isSetParagraph = true;
                             }
                             break;
 
