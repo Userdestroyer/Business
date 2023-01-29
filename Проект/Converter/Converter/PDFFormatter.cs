@@ -143,16 +143,25 @@ class PDFFormatter
                         //CODEPART 2.4 Вставка ссылки на следующий рисунок
                         case 3://"[*ссылка на следующий рисунок*]"
                             {
+                                //заменяем текст на следующий номер рисунка
+                                string replaceString = _sectionNumber.ToString() + "." + (_pictureNumber + 1).ToString();
+                                textParagraph = textParagraph.Replace(templateStringList[i], replaceString);
                             }
                             break;
-                        //CODEPART 2.5 Вставка ссылки на предыдущий рисунок
+                        //CODEPART 2.5 Вставка перекрестной ссылки на предыдущий рисунок
                         case 4://"[*ссылка на таблицу*]
                             {
+                                //заменяем текст на текущий номер рисунка
+                                string replaceString = _sectionNumber.ToString() + "." + _pictureNumber.ToString();
+                                textParagraph = textParagraph.Replace(templateStringList[i], replaceString);
                             }
                             break;
-                        //CODEPART 2.6 Вставка ссылки на таблицу
+                        //CODEPART 2.6
                         case 5://"[*ссылка на таблицу*]"
                             {
+                                //заменяем текст на номер следующей таблицы
+                                string replaceString = _sectionNumber.ToString() + "." + (_tableNumber + 1).ToString();
+                                textParagraph = textParagraph.Replace(templateStringList[i], replaceString);
                             }
                             break;
                         //CODEPART 2.7 Вставка таблицы из файла
