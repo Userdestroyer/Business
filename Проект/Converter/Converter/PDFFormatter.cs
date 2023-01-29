@@ -339,6 +339,8 @@ class PDFFormatter
                 }
             }
 
+            textParagraph = textParagraph.Replace("  ", " ");
+
             //CODEPART 2.12 Стандартное форматирование абзаца
             //если нужно абзац форматировать как обычный текст и абзац еще не вставлен
             if (!isSetParagraph)
