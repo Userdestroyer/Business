@@ -3,6 +3,8 @@ using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.IO;
+using System.Threading.Tasks;
 
 /// <summary>класс для формирования документа PDF</summary>
 class PDFFormatter
@@ -184,25 +186,42 @@ class PDFFormatter
                                 StringSplitOptions.RemoveEmptyEntries);
                                 //создаем таблицу с указанием количества колонок
                                 PdfPTable table = new PdfPTable(listTitle.Length);
-                                //заполняем заголовки таблицы
-                                for (var k = 0; k < listTitle.Length; k++)
+
+                                foreach (string title in listTitle)
                                 {
-                                    PdfPCell cell = new PdfPCell(new Phrase(listTitle[k].ToString(),
-                                    new Font(baseFont, fontSizeText, Font.NORMAL)));
+                                    PdfPCell cell = new PdfPCell(new Phrase(title.ToString(),
+                                            new Font(baseFont, fontSizeText, Font.BOLDITALIC, Color.YELLOW)));
+                                    cell.BackgroundColor = Color.GRAY;
+                                    cell.BorderWidthBottom = 1;
                                     table.AddCell(cell);
                                 }
-                                //заполняем таблицу
-                                for (var j = 1; j < listRows.Length; j++)
+                                int bgColorIterator = 0;
+                                foreach (string row in listRows)
                                 {
-                                    string[] listValues = listRows[j].Split(";,".ToCharArray(),
-                                    StringSplitOptions.RemoveEmptyEntries);
-                                    for (var k = 0; k < listValues.Length; k++)
+                                    bgColorIterator++;
+                                    if (row == listRows[0]) continue;
+
+                                    string[] listValue = row.Split(";,".ToCharArray(),
+                                            StringSplitOptions.RemoveEmptyEntries);
+                                    foreach (string value in listValue)
                                     {
-                                        PdfPCell cell = new PdfPCell(new Phrase(listValues[k].ToString(),
-                                        new Font(baseFont, fontSizeText, Font.NORMAL)));
+                                        PdfPCell style = new PdfPCell();
+                                        style.BorderColor = Color.RED;
+                                        style.HorizontalAlignment = 1;
+
+                                        PdfPCell cell = new PdfPCell(new Phrase(value.ToString(),
+                                                new Font(baseFont, fontSizeText, Font.HELVETICA, Color.CYAN)));
+                                        cell.Border = 0;
+
+                                        if (bgColorIterator % 2 == 0)
+                                            cell.BackgroundColor = Color.GRAY;
+                                        else
+                                            cell.BackgroundColor = Color.WHITE;
+
                                         table.AddCell(cell);
                                     }
                                 }
+
                                 //добавляем таблицу в документ
                                 document.Add(table);
                                 //TODO (задание на 4) применить свое форматирование к таблице: границы, шрифт, цвет шрифта и заливки
