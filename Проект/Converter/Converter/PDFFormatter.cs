@@ -2,6 +2,7 @@
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 /// <summary>класс для формирования документа PDF</summary>
 class PDFFormatter
@@ -333,6 +334,11 @@ class PDFFormatter
                             //заменяем полнотекстовую ссылку на номер
                             textParagraph = textParagraph.Replace(sourceName, replaceString);
                             //двигаемся дальше по абцазу
+
+                            // Вставка неразрывного пробела перед скобкой
+                            textParagraph = textParagraph.Replace(' ' + sourceName,
+                                            "\u00A0[" + index.ToString() + "]");
+
                             j = endIndex;
                         }
                     }
